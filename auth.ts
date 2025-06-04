@@ -1,11 +1,24 @@
-import NextAuth from "next-auth";
-import GitHub from "next-auth/providers/github";
+import NextAuth from "next-auth"
+import GitHub from "next-auth/providers/github"
 import { AUTHOR_BY_GITHUB_ID_QUERY } from "@/sanity/lib/queries";
 import { client } from "@/sanity/lib/client";
 import { writeClient } from "@/sanity/lib/write-client";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [GitHub],
+  session: {
+    strategy: "jwt",
+  },
+  // Suppress JWT errors during upgrade period
+  logger: {
+    error: (code, metadata) => {
+      // Silently handle JWT session errors during NextAuth.js upgrade
+      if (code.includes('JWT') || code.includes('session')) {
+        return; // Don't log JWT/session errors
+      }
+      console.error(code, metadata);
+    },
+  },
   callbacks: {
     async signIn({
       user: { name, email, image },

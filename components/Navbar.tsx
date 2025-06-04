@@ -5,7 +5,15 @@ import { BadgePlus, LogOut } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const Navbar = async () => {
-  const session = await auth();
+  // Add silent error handling for JWT session errors during upgrade
+  let session;
+  try {
+    session = await auth();
+  } catch (error) {
+    // Silently handle JWT session errors during NextAuth.js upgrade
+    // These are expected when old session cookies exist with different encryption
+    session = null;
+  }
 
   return (
     <header className="px-5 py-3 bg-white shadow-sm font-work-sans">

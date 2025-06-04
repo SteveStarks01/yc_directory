@@ -3,6 +3,8 @@ import localFont from "next/font/local";
 import "./globals.css";
 import "easymde/dist/easymde.min.css";
 import { Toaster } from "@/components/ui/toaster";
+import { preload } from "react-dom";
+import { ClientErrorBoundary } from "@/components/ErrorBoundary";
 
 const workSans = localFont({
   src: [
@@ -65,11 +67,16 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // React 19 resource preloading for better performance
+  // Note: CSS files are automatically handled by Next.js, so we don't need to preload them manually
+
   return (
     <html lang="en">
       <body className={workSans.variable}>
-        {children}
-        <Toaster />
+        <ClientErrorBoundary>
+          {children}
+          <Toaster />
+        </ClientErrorBoundary>
       </body>
     </html>
   );

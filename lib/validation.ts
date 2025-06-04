@@ -9,7 +9,11 @@ export const formSchema = z.object({
     .url()
     .refine(async (url) => {
       try {
-        const res = await fetch(url, { method: "HEAD" });
+        // Next.js 15: Explicit caching for fetch requests
+        const res = await fetch(url, {
+          method: "HEAD",
+          cache: "force-cache" // Cache the HEAD request for image validation
+        });
         const contentType = res.headers.get("content-type");
 
         return contentType?.startsWith("image/");

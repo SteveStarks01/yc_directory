@@ -7,7 +7,8 @@ import UserStartups from "@/components/UserStartups";
 import { Suspense } from "react";
 import { StartupCardSkeleton } from "@/components/StartupCard";
 
-export const experimental_ppr = true;
+// Removed experimental_ppr as it's only available in canary versions
+// export const experimental_ppr = true;
 
 const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const id = (await params).id;

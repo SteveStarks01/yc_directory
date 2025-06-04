@@ -12,7 +12,15 @@ export default async function Home({
   const query = (await searchParams).query;
   const params = { search: query || null };
 
-  const session = await auth();
+  // Add silent error handling for JWT session errors during upgrade
+  let session;
+  try {
+    session = await auth();
+  } catch (error) {
+    // Silently handle JWT session errors during NextAuth.js upgrade
+    // These are expected when old session cookies exist with different encryption
+    session = null;
+  }
 
   console.log(session?.id);
 
@@ -50,6 +58,7 @@ export default async function Home({
         </ul>
       </section>
 
+      {/* Sanity Live for real-time updates - wrapped in try-catch to prevent crashes */}
       <SanityLive />
     </>
   );

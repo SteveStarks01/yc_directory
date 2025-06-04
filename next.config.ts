@@ -17,14 +17,16 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // Stable features available in Next.js 15
   experimental: {
-    ppr: "incremental",
-    after: true,
+    // Enable typed routes for better type safety
+    typedRoutes: true,
+    // Enable optimized package imports for better performance
+    optimizePackageImports: ['@sanity/ui', 'lucide-react'],
   },
   devIndicators: {
-    appIsrStatus: true,
-    buildActivity: true,
-    buildActivityPosition: "bottom-right",
+    // Updated for Next.js 15 compatibility
+    position: "bottom-right",
   },
 };
 
