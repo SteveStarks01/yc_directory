@@ -2,7 +2,8 @@ import SearchForm from "@/components/SearchForm";
 import StartupCard, { StartupTypeCard } from "@/components/StartupCard";
 import { STARTUPS_QUERY } from "@/sanity/lib/queries";
 import { sanityFetch, SanityLive } from "@/sanity/lib/live";
-import { auth } from "@/auth";
+import { auth } from "@clerk/nextjs/server";
+import { BackgroundPaths } from "@/components/ui/background-paths";
 
 export default async function Home({
   searchParams,
@@ -12,35 +13,23 @@ export default async function Home({
   const query = (await searchParams).query;
   const params = { search: query || null };
 
-  // Add silent error handling for JWT session errors during upgrade
-  let session;
-  try {
-    session = await auth();
-  } catch (error) {
-    // Silently handle JWT session errors during NextAuth.js upgrade
-    // These are expected when old session cookies exist with different encryption
-    session = null;
-  }
+  // Get user authentication from Clerk
+  const { userId } = await auth();
 
-  console.log(session?.id);
+  console.log('Current user ID:', userId);
 
   const { data: posts } = await sanityFetch({ query: STARTUPS_QUERY, params });
 
   return (
     <>
-      <section className="pink_container">
-        <h1 className="heading">
-          Pitch Your Startup, <br />
-          Connect With Entrepreneurs
-        </h1>
-
-        <p className="sub-heading !max-w-3xl">
+      <BackgroundPaths title="Pitch Your Startup Connect With Entrepreneurs">
+        <p className="sub-heading !max-w-3xl mb-8">
           Submit Ideas, Vote on Pitches, and Get Noticed in Virtual
           Competitions.
         </p>
 
         <SearchForm query={query} />
-      </section>
+      </BackgroundPaths>
 
       <section className="section_container">
         <p className="text-30-semibold">

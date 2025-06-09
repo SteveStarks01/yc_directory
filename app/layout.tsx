@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import "easymde/dist/easymde.min.css";
+import "@uiw/react-md-editor/markdown-editor.css";
 import { Toaster } from "@/components/ui/toaster";
 import { preload } from "react-dom";
 import { ClientErrorBoundary } from "@/components/ErrorBoundary";
+import { ClerkProvider } from "@clerk/nextjs";
+import PerformanceMonitor from "@/components/PerformanceMonitor";
+import QueryProvider from "@/components/providers/QueryProvider";
 
 const workSans = localFont({
   src: [
@@ -71,13 +74,19 @@ export default function RootLayout({
   // Note: CSS files are automatically handled by Next.js, so we don't need to preload them manually
 
   return (
-    <html lang="en">
-      <body className={workSans.variable}>
-        <ClientErrorBoundary>
-          {children}
-          <Toaster />
-        </ClientErrorBoundary>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        {/* suppressHydrationWarning prevents hydration errors from browser extensions like Grammarly */}
+        <body className={workSans.variable} suppressHydrationWarning={true}>
+          <ClientErrorBoundary>
+            <QueryProvider>
+              <PerformanceMonitor />
+              {children}
+              <Toaster />
+            </QueryProvider>
+          </ClientErrorBoundary>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

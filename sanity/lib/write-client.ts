@@ -9,6 +9,9 @@ export const writeClient = createClient({
   apiVersion,
   useCdn: false,
   token,
+  requestTagPrefix: 'yc-directory',
+  perspective: 'published',
+  studioUrl: process.env.NEXT_PUBLIC_SANITY_STUDIO_URL,
 });
 
 if (!writeClient.config().token) {

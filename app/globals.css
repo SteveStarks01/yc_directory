@@ -24,11 +24,11 @@
   }
 
   .text-30-semibold {
-    @apply font-semibold text-[30px] text-black;
+    @apply font-semibold text-[30px] text-white;
   }
 
   .text-26-semibold {
-    @apply font-semibold text-[26px] text-black;
+    @apply font-semibold text-[26px] text-white;
   }
 
   .text-24-black {
@@ -36,19 +36,19 @@
   }
 
   .text-20-medium {
-    @apply font-medium text-[20px] text-black;
+    @apply font-medium text-[20px] text-white;
   }
 
   .text-16-medium {
-    @apply font-medium text-[16px] text-black;
+    @apply font-medium text-[16px] text-white;
   }
 
   .text-14-normal {
     @apply font-normal text-sm text-white-100/80;
   }
 
-  .pink_container {
-    @apply w-full bg-primary min-h-[530px] pattern flex justify-center items-center flex-col py-10 px-6;
+  .hero_container {
+    @apply w-full bg-black min-h-[530px] flex justify-center items-center flex-col py-10 px-6;
   }
 
   .tag {
@@ -60,7 +60,7 @@
   }
 
   .sub-heading {
-    @apply font-medium text-[20px] text-white max-w-2xl text-center break-words;
+    @apply font-medium text-[20px] text-gray-300 max-w-2xl text-center break-words;
   }
 
   .section_container {
@@ -85,7 +85,7 @@
   }
 
   .profile_card {
-    @apply w-80 px-6 pb-6 pt-20 flex flex-col justify-center items-center bg-primary border-[5px] border-black shadow-100 rounded-[30px] relative z-0 h-fit max-lg:w-full;
+    @apply w-80 px-6 pb-6 pt-20 flex flex-col justify-center items-center bg-white border-[5px] border-black shadow-100 rounded-[30px] relative z-0 h-fit max-lg:w-full;
   }
 
   .profile_title {
@@ -133,15 +133,20 @@
 
   /* startupcard */
   .startup-card {
-    @apply bg-white border-[5px] border-black py-6 px-5 rounded-[22px] shadow-200 hover:border-primary transition-all duration-500 hover:shadow-300 hover:bg-primary-100;
+    @apply transition-all duration-500;
+    --icon-color: #ffffff;
+    --heading-text: #ffffff;
+    --paragraph-text: #d1d5db;
+    --button-bg: #ffffff;
+    --button-text: #000000;
   }
 
   .startup-card_date {
-    @apply font-medium text-[16px] bg-primary-100 px-4 py-2 rounded-full group-hover:bg-white-100;
+    @apply font-medium text-xs bg-white/20 text-white px-3 py-1 rounded-full;
   }
 
   .startup-card_desc {
-    @apply font-normal text-[16px] line-clamp-2 my-3 text-black-100 break-all;
+    @apply font-normal text-sm line-clamp-3 text-gray-300;
   }
 
   .startup-card_img {
@@ -149,7 +154,7 @@
   }
 
   .startup-card_btn {
-    @apply rounded-full bg-black-200 font-medium text-[16px] text-white px-5 py-3 !important;
+    @apply rounded-lg bg-white font-medium text-sm text-black px-6 py-2 hover:bg-gray-200 transition-colors !important;
   }
 
   .startup-card_skeleton {
@@ -182,7 +187,7 @@
   }
 
   .startup-form_btn {
-    @apply bg-primary border-[4px] border-black rounded-full p-5 min-h-[70px] w-full font-bold text-[18px] !important;
+    @apply bg-black border-[4px] border-black rounded-full p-5 min-h-[70px] w-full font-bold text-[18px] text-white !important;
   }
 
   /* view */
@@ -191,11 +196,11 @@
   }
 
   .view-text {
-    @apply font-medium text-[16px] bg-primary-100 px-4 py-2 rounded-lg capitalize;
+    @apply font-medium text-[16px] bg-gray-100 px-4 py-2 rounded-lg capitalize;
   }
 
   .category-tag {
-    @apply font-medium text-[16px] bg-primary-100 px-4 py-2 rounded-full;
+    @apply font-medium text-[16px] bg-gray-100 px-4 py-2 rounded-full;
   }
 
   .pattern {

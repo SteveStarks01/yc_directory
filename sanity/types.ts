@@ -39,20 +39,639 @@ export type SanityImageDimensions = {
   aspectRatio?: number;
 };
 
-export type SanityImageHotspot = {
-  _type: "sanity.imageHotspot";
-  x?: number;
-  y?: number;
-  height?: number;
-  width?: number;
+export type Geopoint = {
+  _type: "geopoint";
+  lat?: number;
+  lng?: number;
+  alt?: number;
 };
 
-export type SanityImageCrop = {
-  _type: "sanity.imageCrop";
-  top?: number;
-  bottom?: number;
-  left?: number;
-  right?: number;
+export type ConnectionRequest = {
+  _id: string;
+  _type: "connectionRequest";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  requester?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "userProfile";
+  };
+  recipient?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "userProfile";
+  };
+  connectionType?: "investment" | "partnership" | "mentorship" | "advisory" | "customer" | "networking" | "collaboration" | "other";
+  relatedStartup?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "startup";
+  };
+  relatedPitch?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "pitch";
+  };
+  relatedEvent?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "event";
+  };
+  subject?: string;
+  message?: string;
+  proposedMeetingType?: "video-call" | "phone-call" | "in-person" | "coffee-chat" | "email" | "no-preference";
+  urgency?: "high" | "medium" | "low";
+  investmentDetails?: {
+    interestedInLeading?: boolean;
+    potentialAmount?: number;
+    timeframe?: "immediate" | "1-month" | "3-months" | "6-months" | "future";
+    dueDiligenceRequirements?: Array<string>;
+  };
+  status?: "pending" | "accepted" | "declined" | "expired" | "withdrawn";
+  responseMessage?: string;
+  responseDate?: string;
+  meetingScheduled?: boolean;
+  meetingDate?: string;
+  meetingLink?: string;
+  meetingNotes?: string;
+  meetingOutcome?: "very-positive" | "positive" | "neutral" | "negative" | "no-show" | "rescheduled";
+  followUpRequired?: boolean;
+  followUpDate?: string;
+  followUpNotes?: string;
+  source?: "startup-profile" | "pitch-page" | "event-page" | "search" | "recommendation" | "direct-message" | "other";
+  referredBy?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "userProfile";
+  };
+  allowPublicVisibility?: boolean;
+  notificationsEnabled?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+  expiresAt?: string;
+};
+
+export type InvestmentInterest = {
+  _id: string;
+  _type: "investmentInterest";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  investor?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "investorProfile";
+  };
+  startup?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "startup";
+  };
+  pitch?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "pitch";
+  };
+  interestLevel?: "very-high" | "high" | "medium" | "low" | "watching";
+  investmentStage?: "current" | "next" | "future" | "any";
+  potentialInvestmentAmount?: number;
+  leadInterest?: boolean;
+  reasonsForInterest?: Array<string>;
+  notes?: string;
+  concerns?: string;
+  dueDiligenceStatus?: "not-started" | "initial-review" | "in-progress" | "deep-dive" | "completed" | "on-hold";
+  dueDiligenceItems?: Array<{
+    item?: string;
+    status?: "pending" | "in-progress" | "completed" | "na";
+    notes?: string;
+    completedAt?: string;
+    _key: string;
+  }>;
+  lastContactDate?: string;
+  nextFollowUpDate?: string;
+  meetingRequested?: boolean;
+  meetingScheduled?: boolean;
+  meetingDate?: string;
+  status?: "interested" | "evaluating" | "term-sheet-sent" | "negotiating" | "committed" | "invested" | "passed" | "on-hold";
+  decisionReason?: string;
+  termSheetSent?: boolean;
+  termSheetDate?: string;
+  investmentDate?: string;
+  actualInvestmentAmount?: number;
+  source?: "platform" | "pitch-event" | "demo-day" | "referral" | "cold-outreach" | "warm-intro" | "conference" | "social-media" | "other";
+  referredBy?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "userProfile";
+  };
+  visibility?: "private" | "startup-visible" | "public";
+  allowStartupContact?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+export type InvestorProfile = {
+  _id: string;
+  _type: "investorProfile";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  user?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "userProfile";
+  };
+  investorType?: "angel" | "vc" | "corporate-vc" | "pe" | "family-office" | "accelerator" | "government" | "crowdfunding" | "other";
+  firmName?: string;
+  title?: string;
+  bio?: string;
+  profileImage?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  firmLogo?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  investmentStages?: Array<string>;
+  preferredIndustries?: Array<string>;
+  geographicFocus?: Array<string>;
+  minInvestmentAmount?: number;
+  maxInvestmentAmount?: number;
+  typicalCheckSize?: number;
+  investmentsPerYear?: number;
+  leadInvestments?: boolean;
+  followOnInvestments?: boolean;
+  investmentPhilosophy?: string;
+  valueAdd?: Array<string>;
+  portfolioSize?: number;
+  notableInvestments?: Array<{
+    companyName?: string;
+    description?: string;
+    outcome?: "active" | "ipo" | "acquired" | "unicorn" | "failed";
+    year?: number;
+    _key: string;
+  }>;
+  contactPreferences?: {
+    acceptsColdOutreach?: boolean;
+    preferredContactMethod?: "email" | "linkedin" | "warm-intro" | "platform";
+    responseTime?: "24h" | "2-3d" | "1w" | "2w+";
+  };
+  socialLinks?: {
+    linkedin?: string;
+    twitter?: string;
+    website?: string;
+    firmWebsite?: string;
+    crunchbase?: string;
+    angellist?: string;
+  };
+  verified?: boolean;
+  accredited?: boolean;
+  activelyInvesting?: boolean;
+  visibility?: "public" | "community" | "verified-startups" | "private";
+  profileViews?: number;
+  connectionsRequested?: number;
+  connectionsAccepted?: number;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+export type PitchComment = {
+  _id: string;
+  _type: "pitchComment";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  pitch?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "pitch";
+  };
+  author?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "userProfile";
+  };
+  content?: string;
+  commentType?: "general" | "question" | "feedback" | "suggestion" | "compliment" | "concern" | "investment" | "partnership";
+  isQuestion?: boolean;
+  isPrivate?: boolean;
+  parentComment?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "pitchComment";
+  };
+  threadLevel?: number;
+  likes?: number;
+  replies?: number;
+  authorRole?: "investor" | "mentor" | "entrepreneur" | "expert" | "customer" | "community" | "judge" | "other";
+  expertise?: Array<string>;
+  hasResponse?: boolean;
+  responseDate?: string;
+  status?: "published" | "review" | "flagged" | "hidden" | "deleted";
+  flaggedReason?: "inappropriate" | "spam" | "off-topic" | "harassment" | "misinformation" | "other";
+  moderatorNotes?: string;
+  helpful?: number;
+  notHelpful?: number;
+  contactRequested?: boolean;
+  contactMethod?: "email" | "linkedin" | "phone" | "calendar";
+  createdAt?: string;
+  updatedAt?: string;
+  editedAt?: string;
+};
+
+export type PitchRating = {
+  _id: string;
+  _type: "pitchRating";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  pitch?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "pitch";
+  };
+  rater?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "userProfile";
+  };
+  overallRating?: number;
+  presentationQuality?: number;
+  businessModel?: number;
+  marketOpportunity?: number;
+  traction?: number;
+  team?: number;
+  product?: number;
+  feedback?: string;
+  strengths?: Array<string>;
+  improvements?: Array<string>;
+  questions?: Array<string>;
+  investmentInterest?: "very-interested" | "interested" | "somewhat-interested" | "not-interested" | "need-more-info";
+  potentialInvestmentAmount?: number;
+  followUpRequested?: boolean;
+  raterType?: "investor" | "mentor" | "entrepreneur" | "expert" | "community" | "judge" | "other";
+  expertise?: Array<string>;
+  ratingContext?: "live-event" | "video-review" | "deck-review" | "demo-review" | "competition" | "other";
+  anonymous?: boolean;
+  status?: "published" | "review" | "flagged" | "hidden";
+  verified?: boolean;
+  helpful?: number;
+  notHelpful?: number;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+export type Pitch = {
+  _id: string;
+  _type: "pitch";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  slug?: Slug;
+  startup?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "startup";
+  };
+  presenter?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "userProfile";
+  };
+  additionalPresenters?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "userProfile";
+  }>;
+  description?: string;
+  problem?: string;
+  solution?: string;
+  marketSize?: string;
+  businessModel?: string;
+  traction?: string;
+  competition?: string;
+  askAmount?: number;
+  useOfFunds?: string;
+  pitchVideo?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+    };
+    _type: "file";
+  };
+  pitchVideoUrl?: string;
+  pitchDeck?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+    };
+    _type: "file";
+  };
+  demoVideo?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+    };
+    _type: "file";
+  };
+  demoUrl?: string;
+  thumbnailImage?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  event?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "event";
+  };
+  pitchOrder?: number;
+  presentationDate?: string;
+  pitchType?: "demo-day" | "investor" | "competition" | "practice" | "product-demo" | "elevator" | "other";
+  stage?: "idea" | "pre-seed" | "seed" | "series-a" | "series-b-plus";
+  industry?: "ai-ml" | "b2b-software" | "consumer" | "developer-tools" | "ecommerce" | "education" | "enterprise" | "fintech" | "gaming" | "healthcare" | "hardware" | "infrastructure" | "marketplace" | "media" | "mobile" | "real-estate" | "robotics" | "saas" | "social" | "transportation" | "other";
+  tags?: Array<string>;
+  status?: "draft" | "submitted" | "review" | "approved" | "presented" | "archived";
+  visibility?: "public" | "community" | "investors" | "event-attendees" | "private";
+  featured?: boolean;
+  viewCount?: number;
+  likeCount?: number;
+  commentCount?: number;
+  averageRating?: number;
+  ratingCount?: number;
+  createdAt?: string;
+  updatedAt?: string;
+  submittedAt?: string;
+  approvedAt?: string;
+};
+
+export type FundingRound = {
+  _id: string;
+  _type: "fundingRound";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  startup?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "startup";
+  };
+  roundType?: "pre-seed" | "seed" | "series-a" | "series-b" | "series-c" | "series-d-plus" | "bridge" | "convertible" | "safe" | "grant" | "debt" | "ipo" | "other";
+  amount?: number;
+  currency?: "USD" | "EUR" | "GBP" | "CAD" | "AUD" | "JPY" | "other";
+  announcedDate?: string;
+  closedDate?: string;
+  preMoneyValuation?: number;
+  postMoneyValuation?: number;
+  leadInvestors?: Array<{
+    name?: string;
+    type?: "vc" | "angel" | "corporate-vc" | "pe" | "family-office" | "government" | "accelerator" | "other";
+    amount?: number;
+    website?: string;
+    _key: string;
+  }>;
+  participatingInvestors?: Array<{
+    name?: string;
+    type?: "vc" | "angel" | "corporate-vc" | "pe" | "family-office" | "government" | "accelerator" | "other";
+    amount?: number;
+    _key: string;
+  }>;
+  useOfFunds?: string;
+  keyTerms?: {
+    liquidationPreference?: string;
+    dividendRate?: number;
+    antiDilution?: "none" | "weighted-broad" | "weighted-narrow" | "full-ratchet";
+    boardSeats?: number;
+    votingRights?: string;
+  };
+  pressRelease?: string;
+  secFilings?: Array<{
+    type?: string;
+    url?: string;
+    date?: string;
+    _key: string;
+  }>;
+  status?: "rumored" | "announced" | "closed" | "failed";
+  verified?: boolean;
+  source?: string;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+export type ResourceRating = {
+  _id: string;
+  _type: "resourceRating";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  resource?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "resource";
+  };
+  user?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "userProfile";
+  };
+  rating?: number;
+  review?: string;
+  helpful?: number;
+  notHelpful?: number;
+  verified?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+  status?: "published" | "pending" | "hidden" | "flagged";
+  moderationNotes?: string;
+};
+
+export type ResourceDownload = {
+  _id: string;
+  _type: "resourceDownload";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  resource?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "resource";
+  };
+  user?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "userProfile";
+  };
+  downloadedAt?: string;
+  ipAddress?: string;
+  userAgent?: string;
+  referrer?: string;
+  downloadMethod?: "direct" | "external" | "stream" | "email";
+  fileSize?: number;
+  downloadDuration?: number;
+  successful?: boolean;
+  errorMessage?: string;
+  sessionId?: string;
+  metadata?: {
+    country?: string;
+    city?: string;
+    device?: "desktop" | "mobile" | "tablet" | "unknown";
+    browser?: string;
+    os?: string;
+  };
+};
+
+export type Resource = {
+  _id: string;
+  _type: "resource";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  slug?: Slug;
+  description?: string;
+  content?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  resourceType?: "pdf" | "spreadsheet" | "presentation" | "video" | "audio" | "image" | "template" | "tool" | "link" | "course" | "book" | "article" | "research" | "other";
+  category?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "resourceCategory";
+  };
+  additionalCategories?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "resourceCategory";
+  }>;
+  tags?: Array<string>;
+  file?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+    };
+    _type: "file";
+  };
+  externalUrl?: string;
+  thumbnailImage?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  author?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "userProfile";
+  };
+  contributors?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "userProfile";
+  }>;
+  difficulty?: "beginner" | "intermediate" | "advanced" | "expert";
+  estimatedTime?: string;
+  price?: {
+    isFree?: boolean;
+    amount?: number;
+    currency?: "USD" | "EUR" | "GBP" | "CAD" | "AUD";
+    priceNote?: string;
+  };
+  requirements?: Array<string>;
+  featured?: boolean;
+  status?: "draft" | "published" | "archived" | "review";
+  accessLevel?: "public" | "community" | "premium" | "restricted";
+  downloadCount?: number;
+  viewCount?: number;
+  rating?: {
+    average?: number;
+    count?: number;
+  };
+  createdAt?: string;
+  updatedAt?: string;
+  publishedAt?: string;
 };
 
 export type SanityFileAsset = {
@@ -77,52 +696,234 @@ export type SanityFileAsset = {
   source?: SanityAssetSourceData;
 };
 
-export type SanityImageAsset = {
+export type ResourceCategory = {
   _id: string;
-  _type: "sanity.imageAsset";
+  _type: "resourceCategory";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  originalFilename?: string;
-  label?: string;
-  title?: string;
-  description?: string;
-  altText?: string;
-  sha1hash?: string;
-  extension?: string;
-  mimeType?: string;
-  size?: number;
-  assetId?: string;
-  uploadId?: string;
-  path?: string;
-  url?: string;
-  metadata?: SanityImageMetadata;
-  source?: SanityAssetSourceData;
-};
-
-export type SanityImageMetadata = {
-  _type: "sanity.imageMetadata";
-  location?: Geopoint;
-  dimensions?: SanityImageDimensions;
-  palette?: SanityImagePalette;
-  lqip?: string;
-  blurHash?: string;
-  hasAlpha?: boolean;
-  isOpaque?: boolean;
-};
-
-export type Geopoint = {
-  _type: "geopoint";
-  lat?: number;
-  lng?: number;
-  alt?: number;
-};
-
-export type SanityAssetSourceData = {
-  _type: "sanity.assetSourceData";
   name?: string;
-  id?: string;
-  url?: string;
+  slug?: Slug;
+  description?: string;
+  icon?: "books" | "videos" | "templates" | "documents" | "design" | "code" | "funding" | "marketing" | "legal" | "operations" | "strategy" | "other";
+  color?: "blue" | "green" | "purple" | "red" | "orange" | "yellow" | "pink" | "indigo" | "gray";
+  parentCategory?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "resourceCategory";
+  };
+  featured?: boolean;
+  sortOrder?: number;
+  isActive?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+export type EventRsvp = {
+  _id: string;
+  _type: "eventRsvp";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  event?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "event";
+  };
+  attendee?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "userProfile";
+  };
+  status?: "going" | "maybe" | "not-going" | "waitlisted";
+  registeredAt?: string;
+  updatedAt?: string;
+  attendedEvent?: boolean;
+  checkInTime?: string;
+  notes?: string;
+  dietaryRestrictions?: Array<string>;
+  emergencyContact?: {
+    name?: string;
+    phone?: string;
+    relationship?: string;
+  };
+  feedback?: {
+    rating?: number;
+    comments?: string;
+    wouldRecommend?: boolean;
+    submittedAt?: string;
+  };
+  remindersSent?: Array<{
+    type?: "24h" | "1h" | "starting";
+    sentAt?: string;
+    method?: "email" | "sms" | "push";
+    _key: string;
+  }>;
+};
+
+export type Event = {
+  _id: string;
+  _type: "event";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  slug?: Slug;
+  description?: string;
+  content?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  eventType?: "networking" | "demo-day" | "workshop" | "panel" | "pitch" | "meetup" | "conference" | "social" | "other";
+  format?: "in-person" | "virtual" | "hybrid";
+  startDateTime?: string;
+  endDateTime?: string;
+  timezone?: string;
+  location?: {
+    venue?: string;
+    address?: string;
+    city?: string;
+    country?: string;
+    virtualLink?: string;
+    accessInstructions?: string;
+  };
+  capacity?: number;
+  registrationDeadline?: string;
+  organizer?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "userProfile";
+  };
+  speakers?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "userProfile";
+  }>;
+  tags?: Array<string>;
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  price?: {
+    isFree?: boolean;
+    amount?: number;
+    currency?: "USD" | "EUR" | "GBP" | "CAD" | "AUD";
+  };
+  requirements?: Array<string>;
+  featured?: boolean;
+  status?: "draft" | "published" | "cancelled" | "completed";
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+export type UserProfile = {
+  _id: string;
+  _type: "userProfile";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  userId?: string;
+  role?: "user" | "founder" | "investor" | "mentor" | "moderator" | "admin";
+  bio?: string;
+  skills?: Array<string>;
+  interests?: Array<string>;
+  company?: string;
+  position?: string;
+  location?: string;
+  socialLinks?: {
+    linkedin?: string;
+    twitter?: string;
+    github?: string;
+    website?: string;
+  };
+  preferences?: {
+    emailNotifications?: boolean;
+    profileVisibility?: "public" | "community" | "private";
+    showEmail?: boolean;
+  };
+  joinedAt?: string;
+  lastActive?: string;
+  isVerified?: boolean;
+  isActive?: boolean;
+};
+
+export type CommunityMember = {
+  _id: string;
+  _type: "communityMember";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  community?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "startupCommunity";
+  };
+  user?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "userProfile";
+  };
+  role?: "owner" | "admin" | "moderator" | "member";
+  permissions?: {
+    canPost?: boolean;
+    canComment?: boolean;
+    canModerate?: boolean;
+    canInvite?: boolean;
+    canManageMembers?: boolean;
+  };
+  status?: "active" | "pending" | "suspended" | "banned" | "left";
+  invitedBy?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "userProfile";
+  };
+  inviteMessage?: string;
+  joinedAt?: string;
+  lastActive?: string;
+  postCount?: number;
+  commentCount?: number;
+  moderationNotes?: Array<{
+    note?: string;
+    moderator?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "userProfile";
+    };
+    createdAt?: string;
+    type?: "warning" | "suspension" | "ban" | "general";
+  }>;
+  updatedAt?: string;
 };
 
 export type Playlist = {
@@ -148,8 +949,92 @@ export type Startup = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  title?: string;
+  name?: string;
   slug?: Slug;
+  tagline?: string;
+  description?: string;
+  logo?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  coverImage?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  industry?: "ai-ml" | "b2b-software" | "consumer" | "developer-tools" | "ecommerce" | "education" | "enterprise" | "fintech" | "gaming" | "healthcare" | "hardware" | "infrastructure" | "marketplace" | "media" | "mobile" | "real-estate" | "robotics" | "saas" | "social" | "transportation" | "other";
+  stage?: "idea" | "pre-seed" | "seed" | "series-a" | "series-b" | "series-c-plus" | "ipo" | "acquired";
+  foundedYear?: number;
+  teamSize?: number;
+  location?: {
+    city?: string;
+    state?: string;
+    country?: string;
+    isRemote?: boolean;
+  };
+  founders?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "userProfile";
+  }>;
+  teamMembers?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "userProfile";
+  }>;
+  businessModel?: "b2b-saas" | "b2c-subscription" | "marketplace" | "ecommerce" | "advertising" | "transaction-fees" | "freemium" | "enterprise-license" | "hardware-sales" | "other";
+  revenueModel?: string;
+  targetMarket?: string;
+  totalFunding?: number;
+  lastFundingDate?: string;
+  valuation?: number;
+  investors?: Array<{
+    name?: string;
+    type?: "angel" | "vc" | "corporate-vc" | "pe" | "government" | "crowdfunding" | "other";
+    round?: string;
+    amount?: number;
+    date?: string;
+    _key: string;
+  }>;
+  website?: string;
+  productDemo?: string;
+  techStack?: Array<string>;
+  socialLinks?: {
+    twitter?: string;
+    linkedin?: string;
+    github?: string;
+    crunchbase?: string;
+    angellist?: string;
+  };
+  status?: "active" | "stealth" | "acquired" | "shutdown" | "on-hold";
+  visibility?: "public" | "community" | "investors" | "private";
+  featured?: boolean;
+  verified?: boolean;
+  metrics?: {
+    monthlyRevenue?: number;
+    monthlyActiveUsers?: number;
+    growthRate?: number;
+    burnRate?: number;
+    runway?: number;
+  };
+  title?: string;
   author?: {
     _ref: string;
     _type: "reference";
@@ -157,10 +1042,68 @@ export type Startup = {
     [internalGroqTypeReferenceTo]?: "author";
   };
   views?: number;
-  description?: string;
   category?: string;
   image?: string;
   pitch?: string;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+export type SanityImageCrop = {
+  _type: "sanity.imageCrop";
+  top?: number;
+  bottom?: number;
+  left?: number;
+  right?: number;
+};
+
+export type SanityImageHotspot = {
+  _type: "sanity.imageHotspot";
+  x?: number;
+  y?: number;
+  height?: number;
+  width?: number;
+};
+
+export type SanityImageAsset = {
+  _id: string;
+  _type: "sanity.imageAsset";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  originalFilename?: string;
+  label?: string;
+  title?: string;
+  description?: string;
+  altText?: string;
+  sha1hash?: string;
+  extension?: string;
+  mimeType?: string;
+  size?: number;
+  assetId?: string;
+  uploadId?: string;
+  path?: string;
+  url?: string;
+  metadata?: SanityImageMetadata;
+  source?: SanityAssetSourceData;
+};
+
+export type SanityAssetSourceData = {
+  _type: "sanity.assetSourceData";
+  name?: string;
+  id?: string;
+  url?: string;
+};
+
+export type SanityImageMetadata = {
+  _type: "sanity.imageMetadata";
+  location?: Geopoint;
+  dimensions?: SanityImageDimensions;
+  palette?: SanityImagePalette;
+  lqip?: string;
+  blurHash?: string;
+  hasAlpha?: boolean;
+  isOpaque?: boolean;
 };
 
 export type Slug = {
@@ -185,5 +1128,5 @@ export type Author = {
 
 export type Markdown = string;
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | SanityAssetSourceData | Playlist | Startup | Slug | Author | Markdown;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | Geopoint | ConnectionRequest | InvestmentInterest | InvestorProfile | PitchComment | PitchRating | Pitch | FundingRound | ResourceRating | ResourceDownload | Resource | SanityFileAsset | ResourceCategory | EventRsvp | Event | UserProfile | Playlist | Startup | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | Slug | Author | Markdown;
 export declare const internalGroqTypeReferenceTo: unique symbol;

@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useState, useActionState } from "react";
+import React, { useState, useActionState, Suspense, lazy } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import MDEditor from "@uiw/react-md-editor";
 import { Button } from "@/components/ui/button";
 import { Send } from "lucide-react";
 import { formSchema } from "@/lib/validation";
@@ -11,6 +10,10 @@ import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { createPitch } from "@/lib/actions";
+import { Skeleton } from "@/components/ui/skeleton";
+
+// Lazy load MDEditor to prevent loading issues
+const MDEditor = lazy(() => import("@uiw/react-md-editor"));
 
 const StartupForm = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -35,10 +38,11 @@ const StartupForm = () => {
       if (result.status == "SUCCESS") {
         toast({
           title: "Success",
-          description: "Your startup pitch has been created successfully",
+          description: "Your startup has been created successfully! You can now create a community for it.",
         });
 
-        router.push(`/startup/${result._id}`);
+        // Redirect to user profile instead of startup page
+        router.push(`/user/${result.authorId}`);
       }
 
       return result;
@@ -147,21 +151,23 @@ const StartupForm = () => {
           Pitch
         </label>
 
-        <MDEditor
-          value={pitch}
-          onChange={(value) => setPitch(value as string)}
-          id="pitch"
-          preview="edit"
-          height={300}
-          style={{ borderRadius: 20, overflow: "hidden" }}
-          textareaProps={{
-            placeholder:
-              "Briefly describe your idea and what problem it solves",
-          }}
-          previewOptions={{
-            disallowedElements: ["style"],
-          }}
-        />
+        <Suspense fallback={<Skeleton className="h-[300px] w-full rounded-lg" />}>
+          <MDEditor
+            value={pitch}
+            onChange={(value) => setPitch(value as string)}
+            id="pitch"
+            preview="edit"
+            height={300}
+            style={{ borderRadius: 20, overflow: "hidden" }}
+            textareaProps={{
+              placeholder:
+                "Briefly describe your idea and what problem it solves",
+            }}
+            previewOptions={{
+              disallowedElements: ["style"],
+            }}
+          />
+        </Suspense>
 
         {errors.pitch && <p className="startup-form_error">{errors.pitch}</p>}
       </div>
