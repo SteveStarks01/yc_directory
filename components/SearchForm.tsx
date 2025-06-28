@@ -1,10 +1,11 @@
-import Form from "next/form";
+"use client";
+
 import SearchFormReset from "@/components/SearchFormReset";
-import {Search} from "lucide-react";
+import { Search } from "lucide-react";
 
 const SearchForm = ({ query }: { query?: string }) => {
     return (
-        <Form action="/" scroll={false} className="search-form">
+        <form action="/" className="search-form">
             <input
                 name="query"
                 defaultValue={query}
@@ -19,7 +20,7 @@ const SearchForm = ({ query }: { query?: string }) => {
                     <Search className="size-5" />
                 </button>
             </div>
-        </Form>
+        </form>
     )
 }
 
