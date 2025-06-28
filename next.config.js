@@ -1,12 +1,6 @@
 import { withSentryConfig } from "@sentry/nextjs";
 
 const nextConfig = {
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
   images: {
     dangerouslyAllowSVG: true,
     remotePatterns: [
@@ -15,11 +9,6 @@ const nextConfig = {
         hostname: "*",
       },
     ],
-  },
-  devIndicators: {
-    appIsrStatus: true,
-    buildActivity: true,
-    buildActivityPosition: "bottom-right",
   },
 };
 
